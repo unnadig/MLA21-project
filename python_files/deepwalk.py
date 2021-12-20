@@ -24,39 +24,30 @@ G.add_edges_from(rows)
 def randomWalk(G, v, t):
     visited = []
     node = v
-    for k in range(t):
+    visited.append(v)
+    for k in range(t-1):
         node = random.choice(list(G.neighbors(node)))
         visited.append(node)
     
     return visited
 
-def randomWalk_adj(G, v, t):
-    A = nx.adjacency_matrix(G)
-    A = A.todense()
-    A = np.array(A, dtype=np.float64)
-    T = A/A.sum(axis=1, keepdims=True)
-
-    p = np.zeros(A.shape[0]).reshape(-1,1)
-    p[v] = 1
-    
-    visited = []
-    for k in range(t):
-        p = np.dot(T,p)
-        visited.append(np.argmax(p))
-
-    return visited
-
 def skipGram(phi, W, w):
+    t = len(W)
+    for j in W:
+        for k in W[max(j-w,0):min(j+w,t)]:
+            # calculate loss and update phi, SGD
+            #J = -np.log(P)
+            phi = 0 
 
-    return None
+    return phi
 
 def deepWalk(G, w, d, gamma, t):
-    # initialization
-    V = 0
-    # build binary tree
+    V = list(G)
+    phi = np.random.rand(len(V), d)
     for i in range(gamma):
-        V_shuffle = 0
-        for v in v_shuffle:
+        random.shuffle(V)
+        for v in V:
             W = randomWalk(G, v, t)
-            skipGram(phi, W, w)
-    return 0
+            phi = skipGram(phi, W, w)
+
+    return phi

@@ -24,7 +24,7 @@ G.add_edges_from(rows)
 def randomWalk(G, v, t):
     visited = []
     node = v
-    visited.append(v)
+    visited.append(node)
     for k in range(t-1):
         node = random.choice(list(G.neighbors(node)))
         visited.append(node)
@@ -32,12 +32,13 @@ def randomWalk(G, v, t):
     return visited
 
 def skipGram(phi, W, w):
-    t = len(W)
-    for j in W:
-        for k in W[max(j-w,0):min(j+w,t)]:
-            # calculate loss and update phi, SGD
-            #J = -np.log(P)
-            phi = 0 
+    print('Walk:', W)
+    for i in range(len(W) - 2*w):
+        v = W[i+w]
+        u = W[i:i+2*w+1]
+        print('v:', v, 'Window:', u)
+        # calculate loss from v and u, then update phi
+        phi -= 0
 
     return phi
 
@@ -51,3 +52,5 @@ def deepWalk(G, w, d, gamma, t):
             phi = skipGram(phi, W, w)
 
     return phi
+
+deepWalk(G, 3, 2, 1, 10)

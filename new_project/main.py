@@ -39,21 +39,24 @@ def readTextData():
                         #filtered_text = gs.strip_non_alphanum(filtered_text)
                         corpus.append(filtered_text)
                     l += 1
-
+    # TODO: normalizing document vectors,
+    # right now the corpus is too large, i.e. unwanted words are included 
     return corpus
 
 X = readImageData()
-corpus = readTextData()
+#corpus = readTextData()
 #vectorizer = TfidfVectorizer()
 #response = vectorizer.fit_transform(corpus)
 
 def RP(X,k):
     d,N = X.shape
-    R = np.random.randn(k,d)
+    R = np.random.normal(0,1,k*d)
+    R = np.reshape(R, (k,d))
+    R = R/np.linalg.norm(R, axis=0)
     Y = np.dot(R,X)
     return Y
 
-#Y = RP(X, 500)
+Y = RP(X, 500)
 
 def SRP(X,k):
     d,N = X.shape
@@ -80,7 +83,10 @@ def PCA(X):
     Y = 0
     return Y
 
-def DCT(X):
+def DCT(X,k):
+    d,N = X.shape
+    C = np.random.randn((k,d))
+
     Y = 0
     return Y
 

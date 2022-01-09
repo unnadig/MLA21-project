@@ -21,34 +21,39 @@ def readImageData():
 
     W_array = np.transpose(W_array)
     return W_array
-'''
-# text data
-corpus = []
-dirnames = ['sci.crypt/', 'sci.med/', 'sci.space/', 'soc.religion.christian/']
-for dirname in dirnames:
-    for file in os.listdir('20_newsgroups/'+dirname):
-        with open('20_newsgroups/'+dirname+file, encoding="utf8", errors='ignore') as f:
-            l = 0
-            for line in f:
-                # remove opening lines of document
-                if l > 15:
-                    contents = f.read()
-                    # preprocessing for iftdf
-                    filtered_text = gs.remove_stopwords(contents)
-                    #filtered_text = gs.strip_non_alphanum(filtered_text)
-                    corpus.append(filtered_text)
-                l += 1
 
-vectorizer = TfidfVectorizer()
-response = vectorizer.fit_transform(corpus)
-'''
+# text data
+def readTextData():
+    corpus = []
+    dirnames = ['sci.crypt/', 'sci.med/', 'sci.space/', 'soc.religion.christian/']
+    for dirname in dirnames:
+        for file in os.listdir('20_newsgroups/'+dirname):
+            with open('20_newsgroups/'+dirname+file, encoding="utf8", errors='ignore') as f:
+                l = 0
+                for line in f:
+                    # remove opening lines of document
+                    if l > 15:
+                        contents = f.read()
+                        # preprocessing for iftdf
+                        filtered_text = gs.remove_stopwords(contents)
+                        #filtered_text = gs.strip_non_alphanum(filtered_text)
+                        corpus.append(filtered_text)
+                    l += 1
+
+    return corpus
+
+X = readImageData()
+corpus = readTextData()
+#vectorizer = TfidfVectorizer()
+#response = vectorizer.fit_transform(corpus)
+
 def RP(X,k):
     d,N = X.shape
     R = np.random.randn(k,d)
     Y = np.dot(R,X)
     return Y
 
-#Y = RP(W_array, 500)
+#Y = RP(X, 500)
 
 def SRP(X,k):
     d,N = X.shape
@@ -69,7 +74,7 @@ def SRP(X,k):
 
     return Y
 
-#Y = SRP(W_array, 500)
+#Y = SRP(X, 500)
 
 def PCA(X):
     Y = 0

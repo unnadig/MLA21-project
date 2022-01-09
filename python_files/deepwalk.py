@@ -6,6 +6,8 @@ import os
 
 # read data from file
 dirname = os.path.realpath('..')
+print('here',dirname)
+'''
 filename = os.path.join(dirname, 'data/ucidata-zachary/out.ucidata-zachary')
 rows = []
 with open(filename) as file:
@@ -75,3 +77,4 @@ def deepWalk(G, w, d, gamma, t):
     return phi
 
 deepWalk(G, 3, 2, 1, 10)
+'''

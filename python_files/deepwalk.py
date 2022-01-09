@@ -32,19 +32,40 @@ def randomWalk(G, v, t):
     return visited
 
 def skipGram(phi, W, w):
-    print('Walk:', W)
-    for i in range(len(W) - 2*w):
+    print('\nWalk:', W, 'w:', w)
+    len(phi)
+    for i in range(len(W)-2*w):
         v = W[i+w]
-        u = W[i:i+2*w+1]
+        #u = W[i:i+2*w+1]
+        u = W[i:i+w] + W[i+w+1:i+2*w+1]
+        # include "half-windows" at start and end of W?
+
         print('v:', v, 'Window:', u)
         # calculate loss from v and u, then update phi
+        # binary tree
+        # binary classifier on parent of leaf
+    print('--------------------------------------------')
+    for j, v in enumerate(W):
+        u = []
+        for k in range(max(0,j-w), min(len(W),j+w+1)):
+            if j != k:
+                u.append(W[k])
+
+        print('v:', v, 'Window:', u)
+
         phi -= 0
 
     return phi
 
 def deepWalk(G, w, d, gamma, t):
+    # G: graph G(V,E)
+    # w: window size = 2*w+1
+    # d: embedding size
+    # gamma: walk per vertex
+    # t: walk length
     V = list(G)
     phi = np.random.rand(len(V), d)
+    #tree = 
     for i in range(gamma):
         random.shuffle(V)
         for v in V:

@@ -4,21 +4,23 @@ import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import TfidfVectorizer
 import gensim.parsing.preprocessing as gs
 # image data
-w = 50
-W_array = np.zeros((1300,w**2))
-j = 0
-# iterate through all files
-for file in os.listdir():
-    if file.endswith(".tiff"):
-        X = plt.imread(file)
-        # 100 windows from each image
-        for i in range(100):
-            W = X[i:i+w,i:i+w].flatten()
-            W_array[j*100 + i] = W
-        
-        j += 1
+def readImageData():
+    w = 50
+    W_array = np.zeros((1300,w**2))
+    j = 0
+    # iterate through all files
+    for file in os.listdir():
+        if file.endswith(".tiff"):
+            X = plt.imread(file)
+            # 100 windows from each image
+            for i in range(100):
+                W = X[i:i+w,i:i+w].flatten()
+                W_array[j*100 + i] = W
+            
+            j += 1
 
-W_array = np.transpose(W_array)
+    W_array = np.transpose(W_array)
+    return W_array
 '''
 # text data
 corpus = []

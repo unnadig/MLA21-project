@@ -84,11 +84,28 @@ def PCA(X):
     return Y
 
 def DCT(X,k):
+    # input X must be square
     d,N = X.shape
-    C = np.random.randn((k,d))
+    w = int(np.sqrt(d))
+    # DCT-2
+    C = np.ones((w,w))
+    for i in range(w):
+        for j in range(1,w):
+            C[i,j] = np.sqrt(2)*np.cos((2*i+1)*j*np.pi/(2*w))
 
-    Y = 0
+    C = C/np.sqrt(w)
+    # output dimensions given by k and N
+    w_k = int(np.sqrt(k))
+    Y = np.zeros((w_k**2, N))
+    for s in range(N):
+        X_test = np.reshape(X[:,s], ((w,w)))
+        A = np.dot(C[:,0:w_k].T, C)
+        B = np.dot(C.T, C[:,0:w_k])
+        Y[:,s] = np.dot(A,np.dot(X_test,B)).flatten()
+    
     return Y
+
+Y = DCT(X,500)
 
 def recErr(X,Y):
     err = 0
